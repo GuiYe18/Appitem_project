@@ -7,7 +7,8 @@ module.exports = {
     // 不生成 source map文件
     productionSourceMap: false,
   
-    // devServer: {
+    devServer: {
+      open:true
     //   proxy: {
     //     '/api': {
     //       target: 'http://localhost:4000',
@@ -19,5 +20,6 @@ module.exports = {
     //     }
     //   }
     // },
+    }
   
   }
