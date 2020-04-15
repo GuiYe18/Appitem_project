@@ -50,11 +50,57 @@
             <span>待查</span>
           </p>
         </li>
-        <li>
+        <li @click="submit" >
           <img src="../../static/images/Nine.png" alt />
           <p>
             <span>交卷</span>
           </p>
+          <!-- 遮罩层 -->
+          <div class="mask" ref="test_data" ></div>
+          <!-- 弹框 -->
+          <div class="messageBox " ref="submit">
+            <div class="volumeTitle">
+              <span>考生交卷</span>
+              <img @click="turn" src="../../static/images/Off.png" alt="">
+            </div>
+            <div class="volumeConcent">
+              <div>
+                <img src="../../static/images/考试页面-阅读理解交卷_07.png" alt="">
+                <span><strong>你确定要交卷吗?</strong></span>
+              </div>
+              <span class="answers">答题情况统计</span>
+              <div class="Clear"></div>
+              <table >
+                <tr class="alt">
+                  <td>题型</td>
+                  <td>已答题数</td>
+                  <td>未答题数</td>
+                </tr>
+                <tr>
+                  <td>Apple</td>
+                  <td>Steven Jobs</td>
+                  <td>USA</td>
+                </tr>
+                <tr>
+                  <td>Baidu</td>
+                  <td>Li YanHong</td>
+                  <td>China</td>
+                </tr>
+                <tr class="alt altAcelt">
+                  <td>
+                    待查题目
+                  </td>
+                  <td colspan="2">
+                    共0题
+                  </td>
+                </tr>
+              </table>
+              <div class="confirm">
+                <button>确认</button>
+                <button>返回</button>
+              </div>
+            </div>
+          </div>
         </li>
         <li>
           <span>剩余考试时间</span>
@@ -148,10 +194,12 @@ export default {
   components: { zkTimeDown },
   data() {
     return {
+      
       sava_element: {}, //保存下标
       arrs: 4,//选项四个
       data_answer: {}, //答案 属性名和属性值
-      current: false,
+      current: 2,
+      // current:false,
       value: "1", //选中的值
       arr: [
         {
@@ -1178,11 +1226,21 @@ export default {
             this.value = this.arr.length;
             this.say(this.value-1)
         },
-
         selectQ: function(event) {
             this.arr[this.value * 1 - 1].selected = "ture";
+        },
+
+        // 点击交卷弹窗方法
+        submit:function(){
+            this.$refs.submit.style.display = 'block'
+        },
+        turn:function(){
+            this.$refs.submit.style.display = 'none'
         }
     },
+    updated:{
+      
+    }
 };
 </script>
 
@@ -1202,7 +1260,6 @@ export default {
       display: flex;
       align-items: center;
       overflow: hidden;
-
       li {
         // background-color red
         width: 70px;
@@ -1210,16 +1267,124 @@ export default {
         color: #fff;
         display: inline-block;
         margin-right: 130px;
-
         img {
           margin-bottom: 6px;
           cursor: pointer;
         }
-
         p {
           white-space: nowrap;
           font-size: 14px;
         }
+        .hide{
+          display none
+        }
+        .mask,.messageBox{
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+        .mask{
+          width 100%
+          height 1080px
+          background-color #0033ff
+          z-index 1
+          opacity: 0.2
+          display none
+        }
+        .messageBox{
+          margin: auto;
+          height 308px
+          width 446px
+          background-color #fff
+          z-index 2
+          display none
+          .volumeTitle{
+            width 100%
+            height 32px
+            background-image: linear-gradient(#2c79c2, #3696d9);
+            line-height 32px
+            font-size 14px
+            span{
+              margin-right: 360px;            }
+            img{
+              margin-bottom: 0px;
+            }
+          }
+          .volumeConcent{
+            padding 0 20px
+            div{
+              height 48px
+              line-height 48px
+              font-size 18px
+              img{
+                vertical-align:middle;
+                margin-right 8px
+              }
+              span{
+                color #3085cd
+              }
+            }
+            .answers{
+                font-size 18px
+                color #333
+                font-weight: bolder;
+                float left
+              }
+            .Clear{
+              height 30px
+            }
+            table{
+              color #454545
+              border-collapse:collapse;
+              tr{
+                td{
+                  border 1px solid #c3c5cd
+                  height 35px
+                }
+                td:nth-child(1){
+                  width 142px
+                }
+                td:nth-child(2){
+                  width 125px
+                }
+                td:nth-child(3){
+                  width 129px
+                }
+              }
+              tr:nth-child(2){
+                background-color #f5f5f5
+              }
+              tr:nth-child(3){
+                background-color #eae8ef
+              }
+              .alt{
+                background-color #d2e8f5
+              }
+              .altAcelt>td:nth-child(1){
+                border-right 1px solid #d2e8f5
+              }
+              
+            }
+            .confirm{
+              margin-top 8px
+              button{
+                  height 30px
+                  width 78px
+                  background-color #2c79c2
+                  border-radius: 2px;
+                  display: inline;
+                  margin 0 30px
+                  font-size 16px
+                  color #fff
+              }
+
+            }
+
+          }
+        }
+        
       }
 
       li:nth-last-child(2) {
