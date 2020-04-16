@@ -50,15 +50,15 @@
             <span>待查</span>
           </p>
         </li>
-        <li @click="submit" >
+        <li @click="submit" ref="submit">
           <img src="../../static/images/Nine.png" alt />
           <p>
             <span>交卷</span>
           </p>
           <!-- 遮罩层 -->
-          <div class="mask" ref="test_data" ></div>
+          <div class="mask " ></div>
           <!-- 弹框 -->
-          <div class="messageBox " ref="submit">
+          <div class="messageBox ">
             <div class="volumeTitle">
               <span>考生交卷</span>
               <img @click="turn" src="../../static/images/Off.png" alt="">
@@ -77,27 +77,27 @@
                   <td>未答题数</td>
                 </tr>
                 <tr>
-                  <td>Apple</td>
-                  <td>Steven Jobs</td>
-                  <td>USA</td>
+                  <td>选择题</td>
+                  <td>{{Object.keys(this.data_answer).length}}</td>
+                  <td>{{arr.length-Object.keys(this.data_answer).length}}</td>
                 </tr>
                 <tr>
-                  <td>Baidu</td>
-                  <td>Li YanHong</td>
-                  <td>China</td>
+                  <td>操作题</td>
+                  <td>0</td>
+                  <td>0</td>
                 </tr>
                 <tr class="alt altAcelt">
                   <td>
                     待查题目
                   </td>
                   <td colspan="2">
-                    共0题
+                    共{{arr.length}}题
                   </td>
                 </tr>
               </table>
               <div class="confirm">
-                <button>确认</button>
-                <button>返回</button>
+                <button @click="turn">确认</button>
+                <button @click="turn">返回</button>
               </div>
             </div>
           </div>
@@ -194,7 +194,6 @@ export default {
   components: { zkTimeDown },
   data() {
     return {
-      
       sava_element: {}, //保存下标
       arrs: 4,//选项四个
       data_answer: {}, //答案 属性名和属性值
@@ -1232,15 +1231,19 @@ export default {
 
         // 点击交卷弹窗方法
         submit:function(){
-            this.$refs.submit.style.display = 'block'
+            this.$refs.submit.children[2].style.display = 'block'
+            this.$refs.submit.children[3].style.display = 'block'
+            console.log(Object.keys(this.data_answer).length)
+
+
         },
         turn:function(){
-            this.$refs.submit.style.display = 'none'
+            this.$refs.submit.children[2].style.display = 'none'
+            this.$refs.submit.children[3].style.display = 'none'
+            event.stopPropagation();
         }
     },
-    updated:{
-      
-    }
+    
 };
 </script>
 
@@ -1275,15 +1278,13 @@ export default {
           white-space: nowrap;
           font-size: 14px;
         }
-        .hide{
-          display none
-        }
         .mask,.messageBox{
           position: absolute;
           top: 0;
           bottom: 0;
           left: 0;
           right: 0;
+          display none
         }
         .mask{
           width 100%
@@ -1293,13 +1294,15 @@ export default {
           opacity: 0.2
           display none
         }
+        .hide{
+          display block
+        }
         .messageBox{
           margin: auto;
           height 308px
           width 446px
           background-color #fff
           z-index 2
-          display none
           .volumeTitle{
             width 100%
             height 32px
